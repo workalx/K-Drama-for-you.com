@@ -1,0 +1,110 @@
+/* Фонова картинка */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('Logo.html/kdrama.jpg') no-repeat center center fixed;
+    background-size: cover;
+    filter: brightness(0.17);
+    z-index: -1;
+}
+
+/* Хедер */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.site-header .logo img {
+    width: 100px;
+    height: auto;
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+}
+
+.navigation a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.3s;
+}
+
+.navigation a:hover {
+    color: #ff3e00;
+}
+
+/* Стилі для заголовка сторінки */
+.page-title {
+    text-align: center;
+    font-size: 2em;
+    color: #ff3e00;
+    margin-top: 40px;
+}
+
+/* Контейнер для жанрів */
+.genre-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Стилі для кожного жанру */
+.genre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(44, 44, 44, 0.9);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ff3e00;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+    text-decoration: none;
+    color: #fff;
+}
+
+.genre:hover {
+    background-color: rgba(68, 68, 68, 0.9);
+    transform: scale(1.05);
+}
+
+.genre-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.genre-name {
+    color: #fff;
+    font-size: 1.2em;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Футер */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+}

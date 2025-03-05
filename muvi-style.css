@@ -1,0 +1,177 @@
+body {
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    margin: 0;
+    padding-top: 140px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('Logo.html/kdrama.jpg') no-repeat center center fixed;
+    background-size: cover;
+    filter: brightness(0.15);
+    z-index: -1;
+}
+
+.site-header {
+    position: fixed; /* Фіксоване розташування */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Зменшена прозорість */
+    z-index: 1000; /* Високий z-index, щоб не перекривалася */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(5px); /* Розмиття заднього фону */
+}
+
+.site-header .logo img {
+    width: 100px;
+    height: auto;
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    padding-right: 30px;
+}
+
+.navigation a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.3s;
+}
+
+.navigation a:hover {
+    color: #ff3e00;
+}
+
+/* Оновлені стилі для .grid-container */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin-top: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: stretch; /* Розтягуємо блоки по висоті */
+}
+
+.info-block {
+    background-color: rgba(44, 44, 44, 0.9);
+    border-radius: 8px;
+    border: 1px solid #ff3e00;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; /* Додаємо Flexbox для вертикального вирівнювання */
+    flex-direction: column; /* Для розташування елементів по вертикалі */
+    justify-content: space-between; /* Щоб елементи розташовувалися між собою */
+    min-height: 300px; /* Мінімальна висота кожного блоку */
+}
+
+.info-block:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px 10px rgba(255, 62, 0, 0.7);
+}
+
+.info-text {
+    padding: 15px;
+}
+
+.info-text h1 {
+    font-size: 1.2em;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    flex-grow: 0; /* Не дозволяємо заголовку розтягуватися */
+    align-self: center; /* Вирівнюємо заголовок по вертикалі */
+    margin-top: 20px; /* Відступ зверху */
+}
+
+/* Додаткові стилі для тексту */
+.info-text p {
+    font-size: 1em;
+    color: #ddd;
+    line-height: 1.6;
+    flex-grow: 1; /* Текст займатиме решту простору */
+}
+
+.info-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 62, 0, 0.6);
+    transition: border 0.3s ease;
+}
+
+.info-block:hover .info-image {
+    border-color: #ff3e00;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+/* Стиль для прозорих кнопок */
+.button {
+    display: inline-block; /* Вирівнювання кнопок у рядок */
+    background-color: transparent; /* Прозорий фон */
+    color: #a52a2a; /* Матовий червоний текст */
+    border: 2px solid #a52a2a; /* Матовий червоний колір рамки */
+    width: 40px; /* Фіксована ширина кнопки */
+    height: 40px; /* Фіксована висота кнопки */
+    text-align: center; /* Вирівнювання тексту по центру */
+    line-height: 36px; /* Вирівнювання тексту по вертикалі */
+    font-size: 0.9em; /* Зменшений розмір тексту */
+    font-family: 'Arial', sans-serif;
+    border-radius: 0; /* Квадратна форма */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, color 0.3s;
+    margin: 5px; /* Відступ між кнопками */
+}
+
+/* Ефект наведення */
+.button:hover {
+    background-color: #a52a2a; /* Матовий червоний фон */
+    color: #fff; /* Білий текст */
+    transform: scale(1.1); /* Збільшення розміру кнопки */
+}
+
+/* Ефект натискання */
+.button:active {
+    background-color: #8b0000; /* Темно-червоний фон */
+    border-color: #660000; /* Темно-червона рамка */
+    transform: scale(1.05); /* Трохи менше збільшення при натисканні */
+}
+
+/* Контейнер для центрування */
+div {
+    display: flex;
+    justify-content: center; /* Центрування кнопок по горизонталі */
+    align-items: center; /* Центрування кнопок по вертикалі */
+}
+.h1 {
+    margin-right: 20px;
+}
+.color {
+    color: #a52a2a;
+}

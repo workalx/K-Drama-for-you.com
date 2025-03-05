@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>K-Drama for you</title>
+    <link rel="stylesheet" href="./muvi-style.css">
+    <link rel="stylesheet" href="./main-page.css">
+</head>
+<body class="main-page">
+    <header class="site-header">
+        <div class="logo">
+            <img src="Logo.html/1732728068927.jpg" alt="Логотип" />
+        </div>
+        <nav class="navigation">
+            <a href="index.html">Головна</a>
+            <a href="chan.html">Жанри дорам</a>
+            <a href="contact.html">Контакти</a>
+        </nav>
+    </header>
+
+    <div class="search-container">
+        <div class="search-input-wrapper">
+            <input type="text" id="searchInput" placeholder="Пошук за назвою...">
+            <button onclick="search()" class="search-button">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div id="searchResults" class="search-results"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadContent();
+        });
+
+        function loadContent() {
+            const uniqueContent = new Map();
+            
+            const content = [
+                { 
+                    title: 'Випускник', 
+                    link: 'https://dorama.land/polunochnyy-roman-v-hagvone', 
+                    type: 'Романтика',
+                    image: 'photo-for-chan/vipus.jpg',
+                    description: 'корейська дорама, що розповідає про історію молодої людини, яка після закінчення університету стикається з реаліями дорослого життя.'
+                },
+                { 
+                    title: 'Розуміння любові', 
+                    link: 'https://dorama.land/ponimanie-lyubvi-a', 
+                    type: 'Романтика',
+                    image: 'photo-for-chan/lubov.jpg',
+                    description: 'корейська дорама, яка розповідає історію про те, як двоє людей, маючи різні життєві обставини, намагаються знайти справжнє розуміння та взаємопідтримку у стосунках.'
+                },
+                { 
+                    title: 'Скажи мені що це любов', 
+                    link: 'https://dorama.land/skazhi-mne-chto-eto-lyubov-az', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/scagy.jpg',
+                    description: 'Дорама розповідає про двох людей, які спочатку не розуміють, що таке справжнє кохання.'
+                },
+                { 
+                    title: 'Скажи, що любиш мене', 
+                    link: 'https://dorama.land/skazhi-chto-lyubish-menya', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/lubish.jpg',
+                    description: 'Дорама розповідає історію двох людей, чиї стосунки починаються зі складних емоційних перепитів.'
+                },
+                { 
+                    title: 'Мій щоденник звільнення', 
+                    link: 'https://dorama.land/moy-dnevnik-osvobozhdeniya-a', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/moy.jpeg',
+                    description: 'Троє братів і сестер живуть у невеликому селі, де їхнє життя здається сірим і передбачуваним.'
+                },
+                { 
+                    title: '2521', 
+                    link: 'https://dorama.land/dvadcat-pyat-dvadcat-odin-a', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/2521.webp',
+                    description: 'Наприкінці 1990-х років, у часи економічної кризи, двоє молодих людей знаходять підтримку одне в одному.'
+                },
+                { 
+                    title: 'Мій демон', 
+                    link: 'https://dorama.land/moy-demon-az', 
+                    type: 'Романтика',
+                    image: 'Logo.html/mydemon.jpeg',
+                    description: "Романтична фантастична дорама, що розповідає про несподіваний союз між демоном і спадкоємицею багатої сім'ї."
+                },
+                { 
+                    title: 'Любов по контракту', 
+                    link: 'https://dorama.land/lyubov-po-kontraktu-a', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/contract.jpeg',
+                    description: 'Ця дорама розповідає про молодого чоловіка, який спеціалізується на укладенні контрактів на вигадану любов.'
+                },
+                { 
+                    title: 'Падаюча зірка', 
+                    link: 'https://dorama.land/padayushchaya-zvezda31', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/star.jpeg',
+                    description: 'Це корейська дорама, в центрі сюжету якої історія успішної телеведучої, яка переживає емоційну кризу.'
+                },
+                { 
+                    title: 'Нащадки сонця', 
+                    link: 'https://dorama.land/potomki-solnca-c', 
+                    type: 'Романтика',
+                    image: 'Logo.html/nashc.jpeg',
+                    description: 'Це корейська дорама, що розповідає історію двох молодих людей, які переживають складні життєві ситуації.'
+                },
+                { 
+                    title: 'Алi серця Корьо', 
+                    link: 'https://dorama.land/lunnye-vlyublyonnye-alye-serdca-koryo-ai', 
+                    type: 'Романтика',
+                    image: 'Logo.html/kore.jpeg',
+                    description: 'Це історична корейська дорама, дія якої відбувається в династії Корьо.'
+                },
+                { 
+                    title: 'Між двох світів', 
+                    link: 'https://dorama.land/w-mezh-dvuh-mirov-bh', 
+                    type: 'Романтика',
+                    image: 'Logo.html/mesh.jpeg',
+                    description: 'Корейська дорама, що поєднує в собі елементи фантастики, драми та трилеру.'
+                },
+                { 
+                    title: 'Оповідь про Кухімо', 
+                    link: 'https://dorama.land/skazka-o-kumiho-bn', 
+                    type: 'Романтика',
+                    image: 'Logo.html/kumiho.jpeg',
+                    description: 'Південнокорейська дорама, яка поєднує елементи романтики, фентезі та комедії.'
+                },
+                { 
+                    title: 'Тому що я не хочу втрат', 
+                    link: 'https://dorama.land/potomu-chto-ya-ne-hochu-poter', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/chocy.jpg',
+                    description: 'Ця дорама розповідає історію Сон Ха Ён, успішної жінки, яка пропонує фіктивний шлюб.'
+                },
+                { 
+                    title: 'Одного разу розрушення зайшло в мої двері', 
+                    link: 'https://dorama.land/odnazhdy-razrushenie-voshlo-v-dver-moego-doma-a', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/odnasdy.jpg',
+                    description: 'Дорама розповідає історію Так Дон Гён, редактора веб-романів, чия життя змінюється.'
+                },
+                { 
+                    title: 'Ділова пропозиція', 
+                    link: 'https://dorama.land/delovoe-predlozhenie25', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/dilovo.jpeg',
+                    description: 'Син Ха Рі, молода жінка, працює в великій компанії, але її особисте життя далеке від ідеалу.'
+                },
+                { 
+                    title: 'Влюбитися в твою посмішку', 
+                    link: 'https://dorama.land/vlyubitsya-v-tvoyu-ulybku-h', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/ulybka.jpg',
+                    description: 'Тун Яо — амбіційна студентка, яка стає першою дівчиною в китайській професійній лізі кіберспорту.'
+                },
+                { 
+                    title: 'Хоч я й не герой', 
+                    link: 'https://dorama.land/hot-ya-i-ne-geroy', 
+                    type: 'Романтика',
+                    image: 'Logo.html/hot.jpeg',
+                    description: 'Надихаюча корейська дорама, яка розповідає про звичайну людину, втягнуту в екстремальні обставини.'
+                },
+                { 
+                    title: 'Що сталося із секретарем Кім?', 
+                    link: 'https://dorama.land/chto-sluchilos-s-sekretarem-kim-a', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/secretary.jpeg',
+                    description: 'Лі Ён Джун — самозакоханий віце-президент великої компанії, а Кім Мі Со — його ідеальний секретар.'
+                },
+                { 
+                    title: 'Кохання, що впало з неба', 
+                    link: 'https://dorama.land/avariynaya-posadka-lyubvi1', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/avaria.jpeg',
+                    description: 'Південнокорейська бізнесвумен випадково потрапляє до Північної Кореї після парапланерної аварії.'
+                },
+                { 
+                    title: 'Містер Планктон', 
+                    link: 'https://dorama.land/mister-plankton', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/plancton.jpeg',
+                    description: 'Хе Джо — мандрівник, який ніколи не відчував справжньої любові та не знає свого батька.'
+                },
+                { 
+                    title: 'Хватай Сон Дже і біжи', 
+                    link: 'https://dorama.land/hvatay-son-chzhe-i-begi-h', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/vatay.jpeg',
+                    description: 'Ім Соль, молода жінка, яка колись відмовилась від своїх мрій, несподівано отримує шанс повернутися на 15 років назад.'
+                },
+                { 
+                    title: 'Виходь заміж за мого супруга', 
+                    link: 'https://dorama.land/vyhodi-zamuzh-za-moego-supruga-z', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/mysh.jpeg',
+                    description: 'Головна героїня вирішує стати на місце іншої жінки і замінити її в ролі дружини.'
+                },
+                { 
+                    title: 'Блискучий кавун', 
+                    link: 'https://dorama.land/sverkayushchiy-arbuz-s', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/arbus.jpeg',
+                    description: 'Молодий музикант Ын Гьоль випадково потрапляє в 1995 рік, де зустрічає свого молодого батька.'
+                },
+                { 
+                    title: 'Королева сліз', 
+                    link: 'https://dorama.land/koroleva-slez-t', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/drams.jpg',
+                    description: "Історія юриста Пек Хьон У, який, незважаючи на складне дитинство, здобув великий успіх у кар'єрі."
+                },
+                { 
+                    title: 'Гоблін', 
+                    link: 'https://dorama.land/goblin-f', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/goblin.jpeg',
+                    description: 'Кім Шин, колишній генерал з династії Корьо, який став гобліном.'
+                },
+                { 
+                    title: 'Оповідь про Кухімо 2', 
+                    link: 'https://dorama.land/skazanie-o-kumiho-2-sezon-cf', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/komoho.jpeg',
+                    description: "Лі Йон, дев'ятихвостий куміхо, відчуває на собі все тягар століть."
+                },
+                { 
+                    title: 'Король землі', 
+                    link: 'https://dorama.land/korol-zemli-ai', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/kong.jpeg',
+                    description: 'Гу Вон — харизматичний та впертий керівник готельної імперії "King Group".'
+                },
+                { 
+                    title: 'Номер, який ви набрали', 
+                    link: 'https://dorama.land/nomer-kotoryy-vy-nabrali', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/phono.jpg',
+                    description: 'Пек Са Он – молодий, амбітний прес-секретар президента.'
+                },
+                { 
+                    title: 'Любов тайкома', 
+                    link: 'https://dorama.land/skrytaya-lyubov-g', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/lub.jpeg',
+                    description: 'Сан Чжи з дитинства захоплюється Дуань Цзя Сюєм, другом її старшого брата.'
+                },
+                { 
+                    title: 'Нікому не потрібна брехня', 
+                    link: 'https://dorama.land/bespoleznaya-lozh-w', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/loh.jpeg',
+                    description: 'Мок Соль Хі використовує свій талант чути брехню, щоб розплутувати таємниці.'
+                },
+                { 
+                    title: "Сім'янин",
+                    link: "https://dorama.land/strannyy-otec",
+                    type: "Сімейний",
+                    image: "photo-for-family/dad.jpg",
+                    description: "У звичайній корейській родині, де панує тепло та гармонія, раптом з'являється незнайомець."
+                },
+                { 
+                    title: 'Син маминої подруги', 
+                    link: 'https://dorama.land/syn-maminoy-podrugi', 
+                    type: 'Романтика',
+                    image: 'photo-for-romantic/son.jpeg',
+                    description: 'Пе Сок Рю після тривалого життя в США повертається до Кореї.'
+                },
+                { 
+                    title: 'Хілер', 
+                    link: 'https://dorama.land/hiler-a', 
+                    type: 'Боевик',
+                    image: 'Logo.html/hpler.jpeg',
+                    description: 'Хілер (Healer) — це захоплююча південнокорейська дорама, яка поєднує елементи екшену, романтики та детективу.'
+                },
+                { 
+                    title: 'Болтун', 
+                    link: 'https://dorama.land/boltun-j', 
+                    type: 'Драма',
+                    image: 'Logo.html/big.jpeg',
+                    description: 'Після того як невдалий адвокат Пак Чан Хо бере складну справу впливових людей, його помилково звинувачують у тому, що він геніальний шахрай на прізвисько "Велика миша".'
+                },
+                { 
+                    title: 'Гангстер у шкільній формі', 
+                    link: 'https://dorama.land/ya-gangster-stal-starsheklassnikom', 
+                    type: 'Школа',
+                    image: 'photo-for-school/ganter.jpg',
+                    description: 'Лі, легендарний гангстер, що тримав у страху вулиці, раптово прокидається... в тілі звичайного старшокласника.'
+                },
+                { 
+                    title: 'Навчальна група', 
+                    link: 'https://dorama.land/issledovatelskaya-gruppa', 
+                    type: 'Школа',
+                    image: 'photo-for-school/star.jpg',
+                    description: 'Юн Га-Мін — учень професійно-технічного училища Юсон, відомого своїми проблемними студентами.'
+                },
+                { 
+                    title: 'Меланхолія', 
+                    link: 'https://dorama.land/melanholiya5', 
+                    type: 'Школа',
+                    image: 'photo-for-school/mel.jpeg',
+                    description: 'Престижна приватна школа приховує більше, ніж здається на перший погляд.'
+                },
+                { 
+                    title: 'Істинна красота', 
+                    link: 'https://dorama.land/istinnaya-krasota-av', 
+                    type: 'Школа',
+                    image: 'photo-for-school/istuna.jpeg',
+                    description: 'Чу Кьон усе життя вірила, що краса вирішує долю.'
+                },
+                { 
+                    title: 'Настала ніч', 
+                    link: 'https://dorama.land/nastupila-noch-d', 
+                    type: 'Школа',
+                    image: 'photo-for-school/noch.jpg',
+                    description: 'Звичайний університет приховує моторошну таємницю.'
+                },
+                { 
+                    title: 'Школа 2017', 
+                    link: 'https://dorama.land/shkola-2017', 
+                    type: 'Школа',
+                    image: 'photo-for-school/school.jpg',
+                    description: 'Видатна школа, відома своєю престижністю, приховує страшні таємниці минулого.'
+                },
+                { 
+                    title: 'Вперед, Кальмар!', 
+                    link: 'https://dorama.land/vpered-kalmar9', 
+                    type: 'Школа',
+                    image: 'photo-for-school/calmar.jpeg',
+                    description: 'У світі кіберспорту немає місця для слабкості, а перемога коштує більше, ніж просто слави.'
+                },
+                { 
+                    title: 'Цвіт після ягід', 
+                    link: 'https://dorama.land/cvetochki-posle-yagodok25', 
+                    type: 'Школа',
+                    image: 'photo-for-school/zvitok.jpg',
+                    description: 'Уявіть елітну школу, де правлять четверо впливових юнаків.'
+                },
+                { 
+                    title: 'Іерархія', 
+                    link: 'https://dorama.land/ierarhiya', 
+                    type: 'Школа',
+                    image: 'photo-for-school/rarhia.jpeg',
+                    description: 'Уявіть світ, де сила й влада визначають місце кожного.'
+                },
+                { 
+                    title: 'Школа 2013', 
+                    link: 'https://dorama.land/shkola-2013', 
+                    type: 'Школа',
+                    image: 'photo-for-school/scola.jpg',
+                    description: 'Уявіть школу, де кожен день — це боротьба.'
+                },
+                { 
+                    title: 'Світ подружжя', 
+                    link: 'https://dorama.land/mir-zhenatoy-pary', 
+                    type: 'Сімейний',
+                    image: 'photo-for-family/mur.jpg',
+                    description: 'Драма, яка розповідає про те, як ідеально налагоджене життя подружжя раптово стикається з несподіваними змінами.'
+                },
+                { 
+                    title: 'Пентхаус', 
+                    link: 'https://dorama.land/penthaus-1-season-watch-c', 
+                    type: 'Сімейний',
+                    image: 'photo-for-family/penthaus.jpg',
+                    description: 'Драма, де зрада, жорстокість і пристрасті переплітаються у розкішному світі.'
+                },
+                { 
+                    title: "Менший син сім'ї Чеболей",
+                    link: "https://dorama.land/mladshiy-syn-semi-cheboley34",
+                    type: "Сімейний",
+                    image: "photo-for-family/sun.jpg",
+                    description: "Молодший син впливової родини, якого зрадили і вбили, отримує шанс на нове життя."
+                },
+                { 
+                    title: "Джентельмен та юна леді",
+                    link: "https://dorama.land/dzhentlmen-i-yunaya-ledi-smotret-online2",
+                    type: "Сімейний",
+                    image: "photo-for-family/ledi.jpg",
+                    description: "Молода, але рішуча дівчина та джентльмен з минулим, яке він намагається приховати."
+                },
+                { 
+                    title: "Час кличе тебе",
+                    link: "https://dorama.land/kogda-nibud-ili-odnazhdy-b",
+                    type: "Сімейний",
+                    image: "photo-for-family/vrema.jpg",
+                    description: "Героїня цієї дорами опиняється в ситуації, де її коханий, загиблий у минулому, раптом з'являється."
+                },
+                { 
+                    title: 'Ти - моя весна', 
+                    link: 'https://dorama.land/ty-moya-vesna5', 
+                    type: 'Сімейний',
+                    image: 'photo-for-family/you.jpg',
+                    description: 'Героїня цієї дорами — молода жінка, яка намагається подолати травми минулого.'
+                },
+                { 
+                    title: 'Рідне місто', 
+                    link: 'https://dorama.land/rodnoy-gorod', 
+                    type: 'Сімейний',
+                    image: 'photo-for-family/horod.jpg',
+                    description: 'Після довгої відсутності героїня повертається в рідне місто, яке приховує не лише спогади, а й старі рани.'
+                },
+                { 
+                    title: 'Хоч я й не герой', 
+                    link: 'https://dorama.land/hot-ya-i-ne-geroy', 
+                    type: 'Сімейний',
+                    image: 'Logo.html/hot.jpeg',
+                    description: 'Надихаюча корейська дорама, яка розповідає про звичайну людину, втягнуту в екстремальні обставини.'
+                }
+            ];
+
+            // Додаємо тільки унікальні записи
+            content.forEach(item => {
+                if (!uniqueContent.has(item.title)) {
+                    uniqueContent.set(item.title, item);
+                }
+            });
+
+            window.allContent = Array.from(uniqueContent.values());
+        }
+
+        function search() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = '';
+
+            if (searchInput === '') {
+                return;
+            }
+
+            const filteredResults = window.allContent.filter(item => 
+                item.title.toLowerCase().includes(searchInput)
+            );
+
+            if (filteredResults.length > 0) {
+                // Обмежуємо кількість результатів залежно від довжини пошукового запиту
+                let resultsToShow = filteredResults;
+                if (searchInput.length === 1) {
+                    // При одній літері показуємо тільки перші 6 результатів
+                    resultsToShow = filteredResults.slice(0, 6);
+                } else if (searchInput.length === 2) {
+                    // При двох літерах показуємо перші 10 результатів
+                    resultsToShow = filteredResults.slice(0, 10);
+                } else if (searchInput.length === 3) {
+                    // При трьох літерах показуємо перші 15 результатів
+                    resultsToShow = filteredResults.slice(0, 15);
+                }
+
+                resultsToShow.forEach(result => {
+                    const resultElement = document.createElement('div');
+                    resultElement.className = 'search-result-item';
+                    resultElement.innerHTML = `
+                        <a href="${result.link}" target="_blank">
+                            <img src="${result.image}" alt="${result.title}" class="result-image">
+                            <div class="result-info">
+                                <h3>${result.title}</h3>
+                                <h4>${result.type}</h4>
+                            </div>
+                        </a>
+                    `;
+                    resultsContainer.appendChild(resultElement);
+                });
+            } else {
+                resultsContainer.innerHTML = '<p class="no-results">Ничего не найдено</p>';
+            }
+        }
+
+        // Добавляем поиск при вводе
+        document.getElementById('searchInput').addEventListener('input', function() {
+            search();
+        });
+
+        // Добавляем поиск по нажатию Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                search();
+            }
+        });
+    </script>
+</body>
+</html> 
